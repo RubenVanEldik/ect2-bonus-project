@@ -31,4 +31,4 @@ with st.expander("Input data"):
 
 st.header("Question 1")
 wind_inputs = wind.ask_input()
-data = wind.calculate(data)
+data = wind.calculate(data, wind_inputs)

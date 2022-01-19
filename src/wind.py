@@ -38,7 +38,7 @@ def _calculate_hourly_power(row, params):
 
         avg_power += probability * power_coefficient * wind_power / 10 ** 6
 
-    return avg_power
+    return params["num_turbines"] * avg_power
 
 
 def ask_input():
@@ -47,16 +47,17 @@ def ask_input():
         label="Required wind power capacity (MW)", value=23, min_value=10, max_value=60
     )
     rated_power = 7.5
-    num_wind_turbines = math.ceil(capacity_wind_approx / rated_power)
-    capacity_wind = num_wind_turbines * rated_power
-    st.sidebar.text(f"{num_wind_turbines} turbines for a total of {capacity_wind}MW")
-    return {"num_wind_turbines": num_wind_turbines, "capacity_wind": capacity_wind}
+    num_turbines = math.ceil(capacity_wind_approx / rated_power)
+    capacity_wind = num_turbines * rated_power
+    st.sidebar.text(f"{num_turbines} turbines for a total of {capacity_wind}MW")
+    return {"num_turbines": num_turbines, "capacity_wind": capacity_wind}
 
 
 @st.experimental_memo
-def calculate(data):
+def calculate(data, inputs):
     # Parameters
     params = {
+        "num_turbines": inputs["num_turbines"],
         "rotor_diameter": 127,
         "hub_height": 135,
         "power_coefficients": pd.read_csv(
@@ -70,8 +71,6 @@ def calculate(data):
     )
 
     # Calculate the average hourly wind power generation
-    data["wind_turbine_power"] = data.apply(
-        _calculate_hourly_power, axis=1, params=params
-    )
+    data["avg_wind_power"] = data.apply(_calculate_hourly_power, axis=1, params=params)
 
     return data
