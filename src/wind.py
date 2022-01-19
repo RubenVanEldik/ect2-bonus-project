@@ -41,6 +41,18 @@ def _calculate_hourly_power(row, params):
     return avg_power
 
 
+def ask_input():
+    st.sidebar.title("Wind power")
+    capacity_wind_approx = st.sidebar.number_input(
+        label="Required wind power capacity (MW)", value=23, min_value=10, max_value=60
+    )
+    rated_power = 7.5
+    num_wind_turbines = math.ceil(capacity_wind_approx / rated_power)
+    capacity_wind = num_wind_turbines * rated_power
+    st.sidebar.text(f"{num_wind_turbines} turbines for a total of {capacity_wind}MW")
+    return {"num_wind_turbines": num_wind_turbines, "capacity_wind": capacity_wind}
+
+
 @st.experimental_memo
 def calculate(data):
     # Parameters
