@@ -1,3 +1,4 @@
+import streamlit as st
 import pandas as pd
 
 columns = {
@@ -11,6 +12,7 @@ columns = {
 }
 
 
+@st.experimental_memo
 def import_data(filename, year):
     """
     Get and transform the KNMI dataset.
@@ -37,7 +39,7 @@ def import_data(filename, year):
     # Fix the units
     knmi.wind_speed = knmi.wind_speed.astype(int) / 10
     knmi.temperature = knmi.temperature.astype(int) / 10
-    knmi.air_pressure = knmi.air_pressure.astype(int) * 10
+    knmi.air_pressure = knmi.air_pressure.astype(int) / 10 ** 4
     knmi.ghi = knmi.ghi.astype(int) * 100 ** 2 / 60 / 60  # J/cm2 to kW/m2
 
     # Set the datetime as index and keep only the relevant columns
