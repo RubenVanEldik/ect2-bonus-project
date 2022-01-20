@@ -6,6 +6,7 @@ import question1
 import question2
 import question3
 import question5
+import question6
 
 # Initialize the Streamlit configs
 config.initialize()
@@ -22,7 +23,8 @@ parameters = {
         "power_coefficients": pd.read_csv(
             "input/power_coefficients", index_col="wind_speed"
         ),
-    }
+    },
+    "storage": {"efficiency": 0.9},
 }
 
 # Calculate all questions
@@ -30,3 +32,4 @@ question1.calculate(data, parameters)
 question2.calculate(data, parameters)
 question3.calculate(data, parameters)
 question5.calculate(data)
+question6.calculate(data, parameters)

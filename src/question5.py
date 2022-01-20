@@ -35,7 +35,7 @@ def calculate(data):
 
     # Add the metrics and explanations
     col1, col2 = st.columns(2)
-    col1.metric("Curtailed", f"{int(data.curtailed.sum()):,} MWh")
-    col2.metric("Unserved", f"{int(data.unserved.sum()):,} MWh")
+    col1.metric("Curtailed energy", f"{int(data.curtailed.sum()):,} MWh")
+    col2.metric("Unserved energy", f"{int(data.unserved.sum()):,} MWh")
     st.markdown(explanation)
     st.latex(formula)
