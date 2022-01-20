@@ -2,7 +2,7 @@ import streamlit as st
 import wind
 
 
-def calculate(data):
+def calculate(data, parameters):
     st.header("Question 1")
-    wind_inputs = wind.ask_input()
-    wind.calculate(data, wind_inputs)
+    wind.ask_input(parameters)
+    wind.calculate(data, parameters)
