@@ -2,11 +2,33 @@ import streamlit as st
 import pandas as pd
 from matplotlib import pyplot as plt
 
+annual_plot_explanation = "The annual plot below shows the produced electricity by energy source throughout the year. The slider allows you to change the number of days that are used in the rolling average. A small number of days gives a more detailed look throughout the year, whereas a larger number creates a better overview of the trends."
+
 
 def calculate_metric(value, capacity, relative):
     if relative:
         return f"{int(value / capacity * 100)}%"
     return str(round(value, 1))
+
+
+def create_annual_plot(data):
+    st.markdown(annual_plot_explanation)
+
+    # Window input slider
+    label = "Window of the rolling average (days)"
+    window = st.slider(label, value=30, min_value=1, max_value=60)
+
+    # Prepare the plot data
+    plot_data = data[["production_wind", "production_pv"]]
+    plot_data["production_total"] = data.production_wind + data.production_pv
+
+    # Create the plot
+    fig, ax = plt.subplots(figsize=(10, 4))
+    ax.plot(plot_data.resample("D").mean().rolling(window=window).mean())
+    ax.set_ylabel("Power (MW)")
+    ax.legend(["Wind", "Solar PV", "Total"])
+
+    st.pyplot(fig)
 
 
 def create_table(data, parameters):
@@ -59,3 +81,4 @@ def calculate(data, parameters):
     st.header("Question 2")
 
     create_table(data, parameters)
+    create_annual_plot(data)
