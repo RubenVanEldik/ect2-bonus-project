@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 explanation = """
-        The total curtailed energy has been calculated by summing the curtailed electricity for each timestep.
+        The total curtailed energy is calculated by summing the curtailed electricity for each timestep.
         There is only curtailed electricity in each timestep if there is more wind and solar PV  production than demand.
 
         The unserved electricity is calculated in the same manner, except that production and demand are switched.
