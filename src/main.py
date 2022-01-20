@@ -3,6 +3,7 @@ import pandas as pd
 import config
 import knmi
 import question1
+import question2
 import question3
 import question5
 
@@ -26,5 +27,6 @@ parameters = {
 
 # Calculate all questions
 question1.calculate(data, parameters)
+question2.calculate(data, parameters)
 question3.calculate(data, parameters)
 question5.calculate(data)
