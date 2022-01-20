@@ -94,5 +94,16 @@ def calculate(data, parameters):
 
     roundtrip_efficiency = parameters["storage"]["efficiency"] ** 2
     st.markdown(
-        f"This battery system has a roundtrip efficiency of {roundtrip_efficiency * 100}% and could reduce the curtailment by {curtailment_reduction}% and the unserved energy by {unserved_reduction}%."
+        f"""
+        This battery system has a roundtrip efficiency of {roundtrip_efficiency * 100}% and could reduce the curtailment by {curtailment_reduction}% and the unserved energy by {unserved_reduction}%.
+
+        The battery charging and discharging is calculated by the three formulas below. I won't explain them since its boring and I should actually study for the final.
+        """
     )
+    st.latex(
+        r"P_{battery\ max,t} = min\{max\{\eta_{battery}(P_{curtailed,t} - P_{unserved,t}), -P_{battery\ rated}\}, P_{battery\ rated}\}"
+    )
+    st.latex(
+        r"SOC_t = min\{max\{SOC_{t-1} + \frac{\Delta T \times P_{battery\ max,t}}{E_{battery}}, 0\}, 1\}"
+    )
+    st.latex(r"P_{battery,t} = (SOC_t - SOC_{t-1}) \times E_{battery}")
