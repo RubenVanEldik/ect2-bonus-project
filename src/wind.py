@@ -46,7 +46,7 @@ def _calculate_hourly_power(row, parameters):
 
 
 def ask_input(parameters):
-    st.sidebar.title("Wind power")
+    st.sidebar.title("💨 Wind power")
     rated_power = 7.5
     capacity_wind_approx = st.sidebar.number_input(
         label="Required wind power capacity (MW)",
@@ -59,7 +59,9 @@ def ask_input(parameters):
     capacity_wind = num_turbines * rated_power
 
     # Show the number of installed turbines
-    st.sidebar.text(f"{num_turbines} turbines for a total of {capacity_wind}MW")
+    st.sidebar.caption(
+        f"{num_turbines} turbines will be installed for a total of {capacity_wind}MW"
+    )
 
     # Add the parameters
     parameters["wind"]["num_turbines"] = num_turbines
