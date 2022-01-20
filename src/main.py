@@ -3,6 +3,7 @@ import pandas as pd
 import config
 import knmi
 import question1
+import question3
 
 # Initialize the Streamlit configs
 config.initialize()
@@ -24,3 +25,4 @@ parameters = {
 
 # Calculate all questions
 question1.calculate(data, parameters)
+question3.calculate(data, parameters)
