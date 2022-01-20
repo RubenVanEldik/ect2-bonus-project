@@ -13,10 +13,10 @@ def create_table(data, parameters):
     # Define shorter variables
     production_wind = data.production_wind
     capacity_wind = parameters["wind"]["capacity"]
-    production_pv = pd.Series([0, 0])
+    production_pv = data.production_pv
     capacity_pv = 1
-    production_total = pd.Series([0, 0])
-    capacity_total = 1
+    production_total = production_wind + production_pv
+    capacity_total = capacity_wind + capacity_pv
 
     # Create a table with the statistical values
     relative = st.checkbox("Show values relative to installed capacity")
