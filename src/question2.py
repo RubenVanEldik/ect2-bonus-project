@@ -2,6 +2,11 @@ import streamlit as st
 import pandas as pd
 from matplotlib import pyplot as plt
 
+table_explanation = """
+        The table below shows the statistical indicators for the produced energy for each energy source. The checkbox allows you to switch between absolute and relative values.
+
+        The relative standard deviation of the combined solar and wind power output is smaller, which indicates that the variability of wind and solar PV are (at least partially) uncorrelated, which helps to create a more consistent output.
+    """
 annual_plot_explanation = "The annual plot below shows the produced electricity by energy source throughout the year. The slider allows you to change the number of days that are used in the rolling average. A small number of days gives a more detailed look throughout the year, whereas a larger number creates a better overview of the trends."
 
 
@@ -41,6 +46,7 @@ def create_table(data, parameters):
     capacity_total = capacity_wind + capacity_pv
 
     # Create a table with the statistical values
+    st.markdown(table_explanation)
     relative = st.checkbox("Show values relative to installed capacity")
     unit = "%" if relative else "MW"
 
