@@ -14,11 +14,11 @@ formula = r"""
 
 
 def calculate_curtailed_energy(row):
-    return max(row.production_wind - row.demand, 0)
+    return max(row.production_wind + row.production_pv - row.demand, 0)
 
 
 def calculate_unserved_energy(row):
-    return max(row.demand - row.production_wind, 0)
+    return max(row.demand - row.production_wind - row.production_pv, 0)
 
 
 def calculate(data):
