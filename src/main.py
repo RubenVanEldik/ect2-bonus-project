@@ -7,6 +7,7 @@ import question2
 import question3
 import question5
 import question6
+import question7
 
 # Initialize the Streamlit configs
 config.initialize()
@@ -25,6 +26,7 @@ parameters = {
         ),
     },
     "storage": {"efficiency": 0.9},
+    "financial": {"sde_price": 58},
 }
 
 # Calculate all questions
@@ -33,3 +35,4 @@ question2.calculate(data, parameters)
 question3.calculate(data, parameters)
 question5.calculate(data)
 question6.calculate(data, parameters)
+question7.calculate(data, parameters)
