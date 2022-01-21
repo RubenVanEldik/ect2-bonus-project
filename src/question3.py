@@ -10,16 +10,21 @@ flh_formula = r"Full\ load\ hours_{source} = \frac{\sum_{t=1}^{8760} production_
 def calculate(data, parameters):
     st.header("Question 3")
 
-    rated_power = parameters["wind"]["rated_power"]
-    num_turbines = parameters["wind"]["num_turbines"]
-    cf_wind = data.production_wind.sum() / (rated_power * num_turbines * 8760)
+    capacity_wind = parameters["wind"]["capacity"]
+    capacity_pv = parameters["pv"]["capacity"]
+    capacity_total = capacity_wind + capacity_pv
+
+    cf_wind = data.production_wind.sum() / (capacity_wind * 8760)
+    cf_pv = data.production_pv.sum() / (capacity_pv * 8760)
+    production_total = data.production_wind.sum() + data.production_pv.sum()
+    cf_total = production_total / (capacity_total * 8760)
 
     # Capacity factor
     st.subheader("Capacity factor")
     col1, col2, col3 = st.columns(3)
     col1.metric("Wind", f"{int(cf_wind * 100)}%")
-    col2.metric("Solar PV", "0%")
-    col3.metric("Combined", "0%")
+    col2.metric("Solar PV", f"{int(cf_pv * 100)}%")
+    col3.metric("Combined", f"{int(cf_total * 100)}%")
 
     st.markdown(cf_explanation)
     st.latex(cf_formula)
@@ -28,8 +33,8 @@ def calculate(data, parameters):
     st.subheader("Full load hours")
     col1, col2, col3 = st.columns(3)
     col1.metric("Wind", f"{int(cf_wind * 8760)} hours")
-    col2.metric("Solar PV", "0 hours")
-    col3.metric("Combined", "0 hours")
+    col2.metric("Solar PV", f"{int(cf_pv * 8760)} hours")
+    col3.metric("Combined", f"{int(cf_total * 8760)} hours")
 
     st.markdown(flh_explanation)
     st.latex(flh_formula)
