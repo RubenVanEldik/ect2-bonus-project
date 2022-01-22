@@ -41,7 +41,7 @@ def create_table(data, parameters):
     production_wind = data.production_wind
     capacity_wind = parameters["wind"]["capacity"]
     production_pv = data.production_pv
-    capacity_pv = 1
+    capacity_pv = parameters["pv"]["capacity"]
     production_total = production_wind + production_pv
     capacity_total = capacity_wind + capacity_pv
 
