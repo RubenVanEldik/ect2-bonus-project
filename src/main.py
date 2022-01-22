@@ -17,6 +17,7 @@ data = knmi.import_data("input/weather.csv", 2018)
 
 # Set the default parameters
 parameters = {
+    "location": {"lat": 51.74960549452203, "lon": 4.2120415560786615},
     "wind": {
         "rated_power": 7.5,
         "rotor_diameter": 127,
@@ -25,6 +26,7 @@ parameters = {
             "input/power_coefficients", index_col="wind_speed"
         ),
     },
+    "pv": {"rated_power": 240},
     "storage": {"efficiency": 0.9},
     "financial": {"sde_price": 58},
 }
