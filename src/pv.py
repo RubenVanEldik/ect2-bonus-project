@@ -82,19 +82,13 @@ def _calculate_production(irradiance, module, *, tilt, azimuth):
 def ask_input(parameters):
     st.sidebar.title("🌤️ Solar power")
 
-    # Get the inputs
+    # Get the capacity input
     capacity_approx = st.sidebar.number_input(
         label="Required solar PV power capacity (MW)",
         value=35,
         min_value=0,
         max_value=60,
         step=5,
-    )
-    tilt = st.sidebar.slider(
-        label="Tilt panels (°)", value=35, min_value=0, max_value=90
-    )
-    azimuth = st.sidebar.slider(
-        label="Azimuth panels (°)", value=180, min_value=0, max_value=360
     )
 
     # Calculate the number of panels and total capacity
@@ -105,6 +99,14 @@ def ask_input(parameters):
     # Show the number of installed PV panels
     st.sidebar.caption(
         f"{num_panels:,} PV panels will be installed for a total of {round(capacity_pv, 2)}MW"
+    )
+
+    # Get the tilt and azimuth input
+    tilt = st.sidebar.slider(
+        label="Tilt panels (°)", value=35, min_value=0, max_value=90
+    )
+    azimuth = st.sidebar.slider(
+        label="Azimuth panels (°)", value=180, min_value=0, max_value=360
     )
 
     # Add the parameters
