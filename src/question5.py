@@ -13,11 +13,11 @@ formula = r"""
     """
 
 
-def calculate_curtailed_energy(row):
+def _calculate_curtailed_energy(row):
     return max(row.production_wind + row.production_pv - row.demand, 0)
 
 
-def calculate_unserved_energy(row):
+def _calculate_unserved_energy(row):
     return max(row.demand - row.production_wind - row.production_pv, 0)
 
 
@@ -30,8 +30,8 @@ def calculate(data):
     data["demand"] = demand / 1000
 
     # Calculate curtailed and unserved energy
-    data["curtailed"] = data.apply(calculate_curtailed_energy, axis=1)
-    data["unserved"] = data.apply(calculate_unserved_energy, axis=1)
+    data["curtailed"] = data.apply(_calculate_curtailed_energy, axis=1)
+    data["unserved"] = data.apply(_calculate_unserved_energy, axis=1)
 
     # Add the metrics and explanations
     col1, col2 = st.columns(2)

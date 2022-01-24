@@ -1,7 +1,7 @@
 import streamlit as st
 
 
-def ask_input(parameters):
+def _ask_input(parameters):
     st.sidebar.title("🔋 Battery storage")
     rated_power = 7.5
     power_rating = st.sidebar.number_input(
@@ -22,7 +22,7 @@ def ask_input(parameters):
     parameters["storage"]["energy_rating"] = energy_rating
 
 
-def calculate_battery_performance(data, parameters):
+def _calculate_battery_performance(data, parameters):
     battery_soc_prev = 0
 
     def calculate_row(row):
@@ -44,50 +44,50 @@ def calculate_battery_performance(data, parameters):
     data[new_columns] = data.apply(calculate_row, axis=1, result_type="expand")
 
 
-def calculate_curtailed_energy(row):
+def _calculate_curtailed_energy(row):
     production = row.production_wind + row.production_pv
     return max(production - row.demand - row.battery_flow, 0)
 
 
-def calculate_unserved_energy(row):
+def _calculate_unserved_energy(row):
     production = row.production_wind + row.production_pv
     return max(row.demand + row.battery_flow - production, 0)
 
 
-def calculate_metric(column):
+def _calculate_metric(column):
     return f"{int(column.sum()):,} MWh"
 
 
-def calculate_delta(column1, column2):
+def _calculate_delta(column1, column2):
     return round((1 - (column2.sum() / column1.sum())) * 100, 1)
 
 
 def calculate(data, parameters):
     st.header("Question 6")
-    ask_input(parameters)
+    _ask_input(parameters)
 
     # Calculate the battery performance and add it to the data DataFrame
-    calculate_battery_performance(data, parameters)
+    _calculate_battery_performance(data, parameters)
 
     # Calculate curtailed and unserved energy
-    data["curtailed_w_storage"] = data.apply(calculate_curtailed_energy, axis=1)
-    data["unserved_w_storage"] = data.apply(calculate_unserved_energy, axis=1)
+    data["curtailed_w_storage"] = data.apply(_calculate_curtailed_energy, axis=1)
+    data["unserved_w_storage"] = data.apply(_calculate_unserved_energy, axis=1)
 
     # Calculate the reductions in curtailment and unserved energy
-    curtailment_reduction = calculate_delta(data.curtailed, data.curtailed_w_storage)
-    unserved_reduction = calculate_delta(data.unserved, data.unserved_w_storage)
+    curtailment_reduction = _calculate_delta(data.curtailed, data.curtailed_w_storage)
+    unserved_reduction = _calculate_delta(data.unserved, data.unserved_w_storage)
 
     # Add the metrics and explanations
     col1, col2 = st.columns(2)
     col1.metric(
         "Curtailed energy",
-        calculate_metric(data.curtailed_w_storage),
+        _calculate_metric(data.curtailed_w_storage),
         delta=f"-{curtailment_reduction}%",
         delta_color="inverse",
     )
     col2.metric(
         "Unserved energy",
-        calculate_metric(data.unserved_w_storage),
+        _calculate_metric(data.unserved_w_storage),
         delta=f"-{unserved_reduction}%",
         delta_color="inverse",
     )

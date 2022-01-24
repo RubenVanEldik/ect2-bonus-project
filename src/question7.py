@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 
-def import_day_ahead_prices(data):
+def _import_day_ahead_prices(data):
     # Drop the first line, since 2018-01-01T23:30:00 is missing from data
     demand = pd.read_csv("input/day_ahead_prices.csv", header=None, skiprows=2)
     demand.columns = ["date", "day_ahead_price"]
@@ -11,7 +11,7 @@ def import_day_ahead_prices(data):
     data["revenue"] = data.day_ahead_price * (data.production_wind + data.production_pv)
 
 
-def ask_input(parameters):
+def _ask_input(parameters):
     st.sidebar.title("💸 Financial")
 
     parameters["financial"]["sde_enabled"] = st.sidebar.checkbox("SDE++")
@@ -27,7 +27,7 @@ def ask_input(parameters):
     )
 
 
-def explain():
+def _explain():
     st.markdown(
         """
         To calculate the financial viability of the project both the payback period (PBP) and levelized cost of
@@ -60,8 +60,8 @@ def calculate(data, parameters):
     st.header("Question 7")
 
     # Import the day ahead prices and get the input parameters
-    import_day_ahead_prices(data)
-    ask_input(parameters)
+    _import_day_ahead_prices(data)
+    _ask_input(parameters)
 
     # Calculate the payback time
     investment = parameters["financial"]["investment"] * 10 ** 6
@@ -90,4 +90,4 @@ def calculate(data, parameters):
     col2.metric(
         "LCOE", f"{int(lcoe)} €/MWh",
     )
-    explain()
+    _explain()

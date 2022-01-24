@@ -10,13 +10,13 @@ table_explanation = """
 annual_plot_explanation = "The annual plot below shows the produced electricity by energy source throughout the year. The slider allows you to change the number of days that are used in the rolling average. A small number of days gives a more detailed look throughout the year, whereas a larger number creates a better overview of the trends."
 
 
-def calculate_metric(value, capacity, relative):
+def _calculate_metric(value, capacity, relative):
     if relative:
         return f"{int(value / capacity * 100)}%"
     return str(round(value, 1))
 
 
-def create_annual_plot(data):
+def _create_annual_plot(data):
     st.markdown(annual_plot_explanation)
 
     # Window input slider
@@ -36,7 +36,7 @@ def create_annual_plot(data):
     st.pyplot(fig)
 
 
-def create_table(data, parameters):
+def _create_table(data, parameters):
     # Define shorter variables
     production_wind = data.production_wind
     capacity_wind = parameters["wind"]["capacity"]
@@ -54,22 +54,24 @@ def create_table(data, parameters):
         pd.DataFrame(
             {
                 "Wind": [
-                    calculate_metric(production_wind.min(), capacity_wind, relative),
-                    calculate_metric(production_wind.mean(), capacity_wind, relative),
-                    calculate_metric(production_wind.max(), capacity_wind, relative),
-                    calculate_metric(production_wind.std(), capacity_wind, relative),
+                    _calculate_metric(production_wind.min(), capacity_wind, relative),
+                    _calculate_metric(production_wind.mean(), capacity_wind, relative),
+                    _calculate_metric(production_wind.max(), capacity_wind, relative),
+                    _calculate_metric(production_wind.std(), capacity_wind, relative),
                 ],
                 "Solar": [
-                    calculate_metric(production_pv.min(), capacity_pv, relative),
-                    calculate_metric(production_pv.mean(), capacity_pv, relative),
-                    calculate_metric(production_pv.max(), capacity_pv, relative),
-                    calculate_metric(production_pv.std(), capacity_pv, relative),
+                    _calculate_metric(production_pv.min(), capacity_pv, relative),
+                    _calculate_metric(production_pv.mean(), capacity_pv, relative),
+                    _calculate_metric(production_pv.max(), capacity_pv, relative),
+                    _calculate_metric(production_pv.std(), capacity_pv, relative),
                 ],
                 "Combined": [
-                    calculate_metric(production_total.min(), capacity_total, relative),
-                    calculate_metric(production_total.mean(), capacity_total, relative),
-                    calculate_metric(production_total.max(), capacity_total, relative),
-                    calculate_metric(production_total.std(), capacity_total, relative),
+                    _calculate_metric(production_total.min(), capacity_total, relative),
+                    _calculate_metric(
+                        production_total.mean(), capacity_total, relative
+                    ),
+                    _calculate_metric(production_total.max(), capacity_total, relative),
+                    _calculate_metric(production_total.std(), capacity_total, relative),
                 ],
             },
             columns=["Wind", "Solar", "Combined"],
@@ -86,5 +88,5 @@ def create_table(data, parameters):
 def calculate(data, parameters):
     st.header("Question 2")
 
-    create_table(data, parameters)
-    create_annual_plot(data)
+    _create_table(data, parameters)
+    _create_annual_plot(data)
