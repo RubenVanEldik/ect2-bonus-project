@@ -31,28 +31,35 @@ def _explain():
     st.markdown(
         """
         To calculate the financial viability of the project both the payback period (PBP) and levelized cost of
-        energy (LCOE) are calculated. The day ahead prices for 2018 have been retrieved from ENTSO-E [1].
+        energy (LCOE) are calculated. The day ahead prices for 2018 have been retrieved from ENTSO-E [1]. An annual O&M cost of 2% of the initial investment [2]
+        and a technical availability of 98% [3] are assumed for both the wind and solar PV installation.
 
-        The payback period is calculated by dividing the initial investment by the annual revenue. Where the annual
+        The payback period is calculated by dividing the initial investment by the annual revenue, minus the operations and management costs. The annual
         revenue is the sum of the electricity price multiplied by the electricity generated for each time period. When
         SDE++ is enabled a fixed electricity price of €58 per MWh is used instead of the day ahead price.
 
         For both the electricity generation and electricity price we assume future years will be exactly the same
-        as 2018. This is most definitely wrong, but its already hard to predict medium future price developments, let
+        as 2018. This is most definitely wrong, but its already hard to predict short to medium future price developments, let
         alone multi-decade price developments.
         """
     )
 
     st.caption(
-        "1) Day ahead prices [ENTSO-E](https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show)"
+        """
+        1) Day ahead prices [ENTSO-E](https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show)
+
+        2) Perez, et al. ([10.1016/j.solener.2018.12.074](https://doi.org/10.1016/j.solener.2018.12.074))
+
+        3) Ribrant ([XR-EE-EEK 2006:009](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.561.2279&rep=rep1&type=pdf))
+    """
     )
 
     st.latex(
-        r"pay\ back\ period = \frac{investment}{\sum_{t=1}^{8760} price_{electricity}(E_{wind} + E_{pv})}"
+        r"pay\ back\ period = \frac{cost_{investment}}{\sum_{t=1}^{8760} price_{electricity,t}(E_{wind,t} + E_{pv,t}) - cost_{OM}}"
     )
 
     st.latex(
-        r"LCOE = \frac{\frac{discount\ rate}{1 - (1 + discount\ rate)^{-n}} \times cost_{investment} + cost_{OM}}{\sum_{t=1}^{8760} E_{wind} + E_{pv}}"
+        r"LCOE = \frac{\frac{discount\ rate}{1 - (1 + discount\ rate)^{-n}} \times cost_{investment} + cost_{OM}}{\sum_{t=1}^{8760} E_{wind,t} + E_{pv,t}}"
     )
 
 
