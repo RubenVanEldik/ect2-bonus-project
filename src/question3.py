@@ -1,10 +1,10 @@
 import streamlit as st
 
 cf_explanation = "The capacity factor for wind en solar PV is calculated by dividing the sum of the output by their respective capacity and total number of hours (8760) per year."
-cf_formula = r"Capacity\ factor_{source} = \frac{\sum_{t=1}^{8760} production_{source}}{capacity_{source} \times 8760}"
+cf_formula = r"Capacity\ factor_{source} = \frac{\sum_{t=1}^{8760} E_{source,t}}{E_{source,max} \times 8760}"
 
 flh_explanation = "The full load hours are calculated by almost the same formula as the capacity factor, but instead of dividing the sum of the output by the capacity and number of hours in a year, it is only divided by the sum of the output."
-flh_formula = r"Full\ load\ hours_{source} = \frac{\sum_{t=1}^{8760} production_{source}}{capacity_{source}} = 8760 \times Capacity\ factor_{source}"
+flh_formula = r"Full\ load\ hours_{source} = \frac{\sum_{t=1}^{8760} E_{source,t}}{E_{source,max}} = 8760 \times Capacity\ factor_{source}"
 
 
 def calculate(data, parameters):
