@@ -62,7 +62,7 @@ def ask_input(parameters):
     parameters["wind"]["capacity"] = capacity_wind
 
 
-# @st.experimental_memo
+@st.experimental_memo
 def calculate(data, parameters):
     # Calculate the average hourly wind power generation
     return data.apply(_calculate_hourly_power, axis=1, parameters=parameters)

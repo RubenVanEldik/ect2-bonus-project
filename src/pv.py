@@ -116,7 +116,7 @@ def ask_input(parameters):
     parameters["pv"]["azimuth"] = azimuth
 
 
-# @st.experimental_memo
+@st.experimental_memo
 def calculate(data, parameters):
     latitude = parameters["location"]["lat"]
     longitude = parameters["location"]["lon"]
