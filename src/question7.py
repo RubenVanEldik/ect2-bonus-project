@@ -31,7 +31,7 @@ def _explain():
     st.markdown(
         """
         To calculate the financial viability of the project both the payback period (PBP) and levelized cost of
-        energy (LCOE) are calculated. The day ahead prices for 2018 have been retrieved from ENTSO-E (1).
+        energy (LCOE) are calculated. The day ahead prices for 2018 have been retrieved from ENTSO-E [1].
 
         The payback period is calculated by dividing the initial investment by the annual revenue. Where the annual
         revenue is the sum of the electricity price multiplied by the electricity generated for each time period. When

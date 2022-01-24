@@ -5,9 +5,9 @@ from matplotlib import pyplot as plt
 table_explanation = """
         The table below shows the statistical indicators for the produced energy for each energy source. The checkbox allows you to switch between absolute and relative values.
 
-        The relative standard deviation of the combined solar and wind power output is smaller, which indicates that the variability of wind and solar PV are (at least partially) uncorrelated, which helps to create a more consistent output.
+        The relative standard deviation of the combined solar and wind power output is smaller than the standard deviation of either resource seperately, which indicates that the variability of wind and solar PV are (at least partially) uncorrelated, which helps to create a more consistent output. This can also be seen in the plot, where the PV production peaks in summer and wind production peaks in winter.
     """
-annual_plot_explanation = "The annual plot below shows the produced electricity by energy source throughout the year. The slider allows you to change the number of days that are used in the rolling average. A small number of days gives a more detailed look throughout the year, whereas a larger number creates a better overview of the trends."
+annual_plot_explanation = "The annual plot below shows the produced electricity by energy source throughout the year. The slider allows you to change the number of days that are used in the rolling average. A small number of days gives a more detailed look throughout the year, whereas a larger number creates a better overview of the annual trends."
 
 
 def _calculate_metric(value, capacity, relative):
