@@ -5,10 +5,10 @@ def _ask_input(parameters):
     st.sidebar.title("🔋 Battery storage")
     rated_power = 7.5
     power_rating = st.sidebar.number_input(
-        label="Power rating(MW)", value=5, min_value=1, max_value=20,
+        label="Power rating(MW)", value=5, min_value=1, max_value=60,
     )
     energy_rating = st.sidebar.number_input(
-        label="Energy rating(MWh)", value=5, min_value=1, max_value=20,
+        label="Energy rating(MWh)", value=5, min_value=1, max_value=120,
     )
 
     # Show the minimum (dis)charge time
