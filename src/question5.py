@@ -8,8 +8,8 @@ explanation = """
         The unserved electricity is calculated in the same manner, except that production and demand are switched.
     """
 formula = r"""
-        E_{curtailed} = \sum_{t=1}^{8760} max\{E_{t,wind} + E_{t,pv} - E_{t,demand}, 0\} \\ \ \\
-        E_{unserved} = \sum_{t=1}^{8760} max\{E_{t,demand} - E_{t,wind} - E_{t,pv}, 0\}
+        E_{curtailed} = \sum_{t=1}^{8760} max\{E_{wind,t} + E_{pv,t} - E_{demand,t}, 0\} \\ \ \\
+        E_{unserved} = \sum_{t=1}^{8760} max\{E_{demand,t} - E_{wind,t} - E_{pv,t}, 0\}
     """
 
 
