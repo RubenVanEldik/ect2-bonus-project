@@ -14,35 +14,28 @@ def _calculate_wind_speed_hub_height(row, parameters):
     )
 
 
-def _calculate_probability(speed, avg_speed):
-    if avg_speed == 0:
+def _find_power_coefficient(speed, parameters):
+    power_coefficients = parameters["wind"]["power_coefficients"]
+    max_power_coefficient = power_coefficients.index.max()
+    if speed > max_power_coefficient:
         return 0
 
-    return (
-        math.pi
-        * speed
-        / (2 * avg_speed ** 2)
-        * math.exp(-math.pi / 4 * (speed / avg_speed) ** 2)
-    )
+    # Interpolate the two closest power coefficients to estimate the power coefficient
+    pc_low = power_coefficients.at[math.floor(speed), "power_coefficient"]
+    pc_high = power_coefficients.at[math.ceil(speed), "power_coefficient"]
+    pc_low_share = math.ceil(speed) - speed
+    pc_high_share = speed - math.floor(speed)
+    return pc_low * pc_low_share + pc_high * pc_high_share
 
 
 def _calculate_hourly_power(row, parameters):
-    wind_speed_hub_height = _calculate_wind_speed_hub_height(row, parameters)
+    speed_hub_height = _calculate_wind_speed_hub_height(row, parameters)
     swept_area = math.pi * (parameters["wind"]["rotor_diameter"] / 2) ** 2
-    avg_power = 0
+    wind_power = 0.5 * swept_area * 1.225 * speed_hub_height ** 3
+    power_coefficient = _find_power_coefficient(speed_hub_height, parameters)
+    power_turbine = power_coefficient * wind_power / 10 ** 6
 
-    # Calculate for each possible wind speed the probability, power coefficient,
-    # and wind power. This summed for all wind speeds is the total average power
-    power_coefficients = parameters["wind"]["power_coefficients"]
-    max_power_coefficient = power_coefficients.index.max()
-    for speed in range(max_power_coefficient + 1):
-        probability = _calculate_probability(speed, wind_speed_hub_height)
-        wind_power = 0.5 * swept_area * 1.225 * speed ** 3
-        power_coefficient = power_coefficients.at[speed, "power_coefficient"]
-
-        avg_power += probability * power_coefficient * wind_power / 10 ** 6
-
-    return parameters["wind"]["num_turbines"] * avg_power
+    return parameters["wind"]["num_turbines"] * power_turbine
 
 
 def ask_input(parameters):
@@ -69,7 +62,7 @@ def ask_input(parameters):
     parameters["wind"]["capacity"] = capacity_wind
 
 
-@st.experimental_memo
+# @st.experimental_memo
 def calculate(data, parameters):
     # Calculate the average hourly wind power generation
     return data.apply(_calculate_hourly_power, axis=1, parameters=parameters)
